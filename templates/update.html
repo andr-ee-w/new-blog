@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+   <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+{% endfor %}
+
+{% if id ==  current_user.id %}
+
+    <h1>Update User...</h1>
+    <br/><br/>
+<div class="shadow p-3 mb-5 bg-body-tertiary rounded">
+    <form action="/update/{{ name_to_update.id }}" method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+
+        {{ form.name.label(class="form-label") }}
+        {{ form.name(class="form-control", value=name_to_update.name) }}
+        <br/>
+
+        {{ form.username.label(class="form-label") }}
+        {{ form.username(class="form-control", value=name_to_update.username) }}
+        <br/>
+
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-control", value=name_to_update.email) }}
+        <br/>
+
+        {{ form.favorite_color.label(class="form-label") }}
+        {{ form.favorite_color(class="form-control", value=name_to_update.favorite_color) }}
+        <br/>
+
+        {{ form.user_bio.label(class="form-label") }}
+        <textarea name="user_bio" class="form-control">{{name_to_update.user_bio}}</textarea>
+        <br/>
+
+        {{ form.profile_pic.label(class="form-label") }}
+        {{ form.profile_pic(class="form-control", value=name_to_update.profile_pic) }}
+        <br/>
+
+        {{ form.submit(class="btn btn-success") }}
+
+        <a href="{{ url_for('delete', id=current_user.id) }}" class="btn btn-outline-danger">Delete</a>
+    </form>
+</div>
+<br/><br/><br/>
+
+{% else %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        Sorry! You can't edit this user!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <h2>Access Denied!</h2>
+    <p>You cannot access this users profile.</p>
+{% endif %}
+
+{% endblock %}
